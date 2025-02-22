@@ -1,40 +1,146 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Day6());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Day6 extends StatefulWidget {
+  const Day6({super.key});
+
+  @override
+  Day6State createState() => Day6State();
+}
+
+class Day6State extends State<Day6> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    Center(child: Text("Home Page")),
+    Center(child: Text("Search Page")),
+    Center(child: Text("Settings Page")),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lab 6 work',
+      title: "Day-6",
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Day-6'),
-          backgroundColor: const Color.fromARGB(255, 211, 192, 191),
-        ),
-        backgroundColor: const Color(0xFFE3E8FF),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        drawer: Drawer(
+          backgroundColor: Colors.blueAccent,
+          child: ListView(
+            padding: EdgeInsets.zero,
             children: [
-              const Text(
-                "Hello World",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              DrawerHeader(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Icon(Icons.contact_mail, color: Colors.white, size: 30),
+                    SizedBox(width: 10),
+                    Text(
+                      "Contacts",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20), // Space between text & image
-              CachedNetworkImage(
-                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2ko9LJLTbaPrcncnhZFDsvJh4D4Zz4mGwA&s",
-                fit: BoxFit.fitWidth,
-                placeholder: (context, url) => const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Text("Didnt work vaiya!")),
-              Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN2ko9LJLTbaPrcncnhZFDsvJh4D4Zz4mGwA&s")
+              ListTile(
+                leading: Icon(Icons.home, color: Colors.white),
+                title: Text(
+                  "Home",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                hoverColor: Colors.grey[700],
+                textColor: Colors.white,
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.settings, color: Colors.white),
+                title: Text(
+                  "Settings",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                hoverColor: Colors.grey[700],
+                textColor: Colors.white,
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.logout, color: Colors.white),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                hoverColor: Colors.grey[700],
+                textColor: Colors.white,
+                onTap: () {},
+              ),
             ],
           ),
+        ),
+        appBar: AppBar(
+          title: Text(
+            "Day-6",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.blueAccent,
+        ),
+        backgroundColor: Colors.blueGrey[100],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome to the Advanced UI",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  child: Text("Click Me", style: TextStyle(fontSize: 18)),
+                ),
+                SizedBox(height: 40),
+                _pages[_selectedIndex],
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Setting',
+            ),
+          ],
         ),
       ),
     );
